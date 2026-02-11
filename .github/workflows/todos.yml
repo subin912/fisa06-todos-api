@@ -2,9 +2,11 @@ name: Collect Todos Pipeline
 
 on:
   schedule:
-    - cron: "*/5 * * * *"   # 5분마다 실행됨
-  push:              
+    - cron: "*/5 * * * *"   # 5분마다 실행됨          
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   collect:
