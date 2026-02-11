@@ -27,7 +27,6 @@ jobs:
         run: |
           python collect_todos.py
 
-      # 🔽 여기부터가 핵심: 결과 JSON을 레포에 누적 커밋
       - name: Commit updated JSON
         run: |
           git config user.name "github-actions[bot]"
