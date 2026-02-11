@@ -1,0 +1,34 @@
+name: Collect Todos Pipeline
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # 5분마다 실행됨
+  push:                     # 레포에 이벤트 발생 시 실행
+  workflow_dispatch:  
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run collector script
+        run: |
+          python collect_todos.py
+
+      - name: Upload result JSON
+        uses: actions/upload-artifact@v4
+        with:
+          name: todos-result
+          path: /tmp/김수빈_test.json
