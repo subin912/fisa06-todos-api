@@ -3,8 +3,8 @@ name: Collect Todos Pipeline
 on:
   schedule:
     - cron: "*/5 * * * *"   # 5분마다 실행됨
-  push:                     # 레포에 이벤트 발생 시 실행
-  workflow_dispatch:  
+  push:              
+  workflow_dispatch:
 
 jobs:
   collect:
@@ -27,8 +27,11 @@ jobs:
         run: |
           python collect_todos.py
 
-      - name: Upload result JSON
-        uses: actions/upload-artifact@v4
-        with:
-          name: todos-result
-          path: /tmp/김수빈_test.json
+      # 🔽 여기부터가 핵심: 결과 JSON을 레포에 누적 커밋
+      - name: Commit updated JSON
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add 김수빈_test.json
+          git commit -m "chore: update todos json" || echo "No changes"
+          git push
